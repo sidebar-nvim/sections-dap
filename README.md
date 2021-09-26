@@ -28,3 +28,13 @@ require("sidebar-nvim").setup({
 })
 ```
 
+## Colors
+
+| Highlight Group | Defaults To |
+| --------------- | ----------- |
+| *SidebarNvimDapBreakpointFileName* | Label |
+| *SidebarNvimDapBreakpointTotalNumber* | Normal |
+| *SidebarNvimDapBreakpointText* | Normal |
+| *SidebarNvimDapBreakpointLineNumber* | LineNr |
+| *SidebarNvimDapBreakpointColNumber* | LineNr |
+
