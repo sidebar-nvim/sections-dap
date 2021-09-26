@@ -18,7 +18,12 @@ Show current breakpoints into the sidebar
 ```lua
 require("sidebar-nvim").setup({
     ...
-    sections = { "datetime", "git-status", "lsp-diagnostics", require("dap-sidebar-nvim.breakpoints") },
+    sections = {
+        "datetime",
+        "git-status",
+        "lsp-diagnostics",
+        require("dap-sidebar-nvim.breakpoints")
+    },
     ...
 })
 ```
