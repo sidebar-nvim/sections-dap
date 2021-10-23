@@ -1,4 +1,5 @@
 local Loclist = require("sidebar-nvim.components.loclist")
+local base_config = require("sidebar-nvim.config")
 local Debouncer = require("sidebar-nvim.debouncer")
 local breakpoints = require("dap.breakpoints")
 
@@ -43,7 +44,12 @@ local update_breakpoints_debounced = Debouncer:new(vim.schedule_wrap(update_brea
 
 return {
     title = "Dap Breakpoints",
-    icon = "🔎",
+    icon = function()
+        local config = base_config.dap or {}
+        config = config.breakpoints or {}
+
+        return config.icon or ""
+    end,
     draw = function(ctx)
         local lines = {}
         local hl = {}

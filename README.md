@@ -24,6 +24,11 @@ require("sidebar-nvim").setup({
         "lsp-diagnostics",
         require("dap-sidebar-nvim.breakpoints")
     },
+    dap = {
+        breakpoints = {
+            icon = "🔍"
+        }
+    }
     ...
 })
 ```
