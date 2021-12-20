@@ -7,15 +7,13 @@ local loclist = Loclist:new({
     highlights = {
         group = "SidebarNvimDapBreakpointFileName",
         group_count = "SidebarNvimDapBreakpointTotalNumber",
-        item_text = "SidebarNvimDapBreakpointText",
-        item_lnum = "SidebarNvimDapBreakpointLineNumber",
-        item_col = "SidebarNvimDapBreakpointColNumber",
     },
 })
 
 local function update_breakpoints()
     loclist:clear()
 
+    local items = {}
     local breakpoints_by_buf = breakpoints.get()
     for buf, buf_bps in pairs(breakpoints_by_buf) do
         for _, bp in ipairs(buf_bps) do
@@ -29,13 +27,30 @@ local function update_breakpoints()
                 line_text = line_text:gsub("^%s*(.-)%s*$", "%1")
             end
 
-            loclist:add_item({
+            table.insert(items, {
                 group = vim.fn.fnamemodify(filename, ":t"),
                 lnum = bp.line,
                 col = 0,
-                text = line_text,
+                left = {
+                    { text = bp.line, hl = "SidebarNvimDapBreakpointLineNumber" },
+                    { text = ": " },
+                    { text = line_text, hl = "SidebarNvimDapBreakpointText" },
+                },
                 filepath = filename,
             })
+        end
+    end
+
+    local previous_state = vim.tbl_map(function(group)
+        return group.is_closed
+    end, loclist.groups)
+
+    loclist:set_items(items, { remove_groups = true })
+    loclist:close_all_groups()
+
+    for group_name, is_closed in pairs(previous_state) do
+        if loclist.groups[group_name] ~= nil then
+            loclist.groups[group_name].is_closed = is_closed
         end
     end
 end
@@ -51,10 +66,10 @@ return {
         return config.icon or ""
     end,
     draw = function(ctx)
+        update_breakpoints_debounced:call()
+
         local lines = {}
         local hl = {}
-
-        update_breakpoints_debounced:call()
 
         loclist:draw(ctx, lines, hl)
 
@@ -73,7 +88,6 @@ return {
             SidebarNvimDapBreakpointTotalNumber = "Normal",
             SidebarNvimDapBreakpointText = "Normal",
             SidebarNvimDapBreakpointLineNumber = "LineNr",
-            SidebarNvimDapBreakpointColNumber = "LineNr",
         },
     },
     bindings = {
