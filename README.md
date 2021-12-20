@@ -20,8 +20,8 @@ require("sidebar-nvim").setup({
     ...
     sections = {
         "datetime",
-        "git-status",
-        "lsp-diagnostics",
+        "git",
+        "diagnostics",
         require("dap-sidebar-nvim.breakpoints")
     },
     dap = {
@@ -41,5 +41,4 @@ require("sidebar-nvim").setup({
 | *SidebarNvimDapBreakpointTotalNumber* | Normal |
 | *SidebarNvimDapBreakpointText* | Normal |
 | *SidebarNvimDapBreakpointLineNumber* | LineNr |
-| *SidebarNvimDapBreakpointColNumber* | LineNr |
 
